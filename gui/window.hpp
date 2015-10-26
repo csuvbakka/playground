@@ -13,10 +13,12 @@ class Window
 public:
     Window();
     Window(const Point& p, int width, int height);
-    // TODO: copy ctor, operator=
+    Window(const Window& other);
+    Window& operator=(const Window&) = delete;
     ~Window();
 
     void moveTo(int x, int y);
+    void resize(int width, int height);
     void print(const std::string& text);
     void printTo(const Point& p, const std::string& text);
 

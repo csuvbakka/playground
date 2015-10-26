@@ -14,6 +14,15 @@ Window::Window()
     wrefresh(window_);
 }
 
+Window::Window(const Window& other)
+    : x_(other.x_)
+    , y_(other.y_)
+    , width_(other.width_)
+    , height_(other.height_)
+{
+    window_ = newwin(height_, width_, y_, x_);
+}
+
 Window::Window(const Point& p, int width, int height)
     : x_(p.x)
     , y_(p.y)
@@ -33,7 +42,16 @@ Window::~Window()
 
 void Window::moveTo(int x, int y)
 {
+    x_ = x;
+    y_ = y;
     mvwin(window_, y, x);
+}
+
+void Window::resize(int width, int height)
+{
+    width_ = width;
+    height_ = height;
+    wresize(window_, height, width);
 }
 
 void Window::print(const std::string& text)

@@ -5,46 +5,57 @@
 
 int main()
 {
-   int ch;
+    int ch;
 
-   initscr();
-   cbreak();
-   keypad(stdscr, TRUE);
-   refresh();
+    initscr();
+    cbreak();
+    keypad(stdscr, TRUE);
+    refresh();
 
-   auto main_window =
-       std::unique_ptr<gui::Window>(new gui::Window(gui::Point{0, 0}, COLS, LINES - 1));
-   main_window->printTo({10, 0}, "main stuff");
-   main_window->refresh();
+    auto main_window =
+        std::make_unique<gui::Window>(gui::Point{0, 0}, COLS, LINES - 1);
+    main_window->printTo({10, 0}, "main stuff");
+    main_window->refresh();
 
-   auto window =
-       std::unique_ptr<gui::Window>(new gui::Window(gui::Point{0, LINES - 1}, COLS, 1));
-   window->print("command line");
-   window->refresh();
+    auto window =
+        std::make_unique<gui::Window>(gui::Point{0, LINES - 1}, COLS, 1);
+    window->print("command line");
+    window->refresh();
 
-   while ((ch = getch()) != 27)
-   {
-      switch (ch)
-      {
-         case KEY_RESIZE:
-         {
-            erase();
+    auto proba = std::make_unique<gui::Window>(*window.get());
+    proba->resize(30, 1);
+    proba->moveTo(1, 1);
+    proba->print("copied window");
+    proba->refresh();
 
-            main_window->moveTo(0, 0);
-            main_window->printTo({10, 10}, "some random text");
+    while ((ch = getch()) != 27)
+    {
+        switch (ch)
+        {
+            case KEY_RESIZE:
+            {
+                erase();
 
-            window->moveTo(0, LINES - 1);
-            window->print("keep this at the bottom");
+                main_window->moveTo(0, 0);
+                main_window->printTo({10, 10}, "some random text");
 
-            refresh();
-            main_window->refresh();
-            window->refresh();
-         }
-      }
-   }
-   window.release();
-   main_window.release();
+                window->moveTo(0, LINES - 1);
+                window->print("keep this at the bottom");
 
-   endwin();
-   return 0;
+                proba->moveTo(0, 2);
+                proba->print("copied window moved");
+
+                refresh();
+                main_window->refresh();
+                window->refresh();
+                proba->refresh();
+            }
+        }
+    }
+    proba.release();
+    window.release();
+    main_window.release();
+
+    endwin();
+    return 0;
 };
