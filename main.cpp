@@ -1,4 +1,3 @@
-// #include <string.h>
 #include <memory>
 #include <string>
 #include <ncurses.h>
@@ -11,12 +10,15 @@ int main()
    initscr();
    cbreak();
    keypad(stdscr, TRUE);
-
-   printw("Press F1 to exit");
    refresh();
 
+   auto main_window =
+       std::unique_ptr<gui::Window>(new gui::Window(gui::Point{0, 0}, COLS, LINES - 1));
+   main_window->printTo({10, 0}, "main stuff");
+   main_window->refresh();
+
    auto window =
-       std::unique_ptr<gui::Window>(new gui::Window(0, LINES - 1, COLS, 1));
+       std::unique_ptr<gui::Window>(new gui::Window(gui::Point{0, LINES - 1}, COLS, 1));
    window->print("command line");
    window->refresh();
 
@@ -26,19 +28,22 @@ int main()
       {
          case KEY_RESIZE:
          {
-            clear();
-            mvprintw(0, 0, "COLS = %d, LINES = %d", COLS, LINES);
-            for (int i = 0; i < COLS; i++)
-               mvaddch(1, i, '*');
-            refresh();
+            erase();
+
+            main_window->moveTo(0, 0);
+            main_window->printTo({10, 10}, "some random text");
 
             window->moveTo(0, LINES - 1);
             window->print("keep this at the bottom");
+
+            refresh();
+            main_window->refresh();
             window->refresh();
          }
       }
    }
    window.release();
+   main_window.release();
 
    endwin();
    return 0;

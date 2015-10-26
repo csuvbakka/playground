@@ -14,9 +14,9 @@ Window::Window()
     wrefresh(window_);
 }
 
-Window::Window(int x, int y, int width, int height)
-    : x_(x)
-    , y_(y)
+Window::Window(const Point& p, int width, int height)
+    : x_(p.x)
+    , y_(p.y)
     , width_(width)
     , height_(height)
 {
@@ -33,7 +33,6 @@ Window::~Window()
 
 void Window::moveTo(int x, int y)
 {
-    wclear(window_);
     mvwin(window_, y, x);
 }
 
@@ -42,8 +41,23 @@ void Window::print(const std::string& text)
     mvwprintw(window_, 0, 0, text.c_str());
 }
 
+void Window::printTo(const Point& p, const std::string& text)
+{
+    mvwprintw(window_, p.y, p.x, text.c_str());
+}
+
 void Window::refresh()
 {
     wrefresh(window_);
+}
+
+void Window::clear()
+{
+    wclear(window_);
+}
+
+void Window::erase()
+{
+    werase(window_);
 }
 };
