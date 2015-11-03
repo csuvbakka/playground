@@ -2,32 +2,33 @@
 #include <string>
 #include <ncurses.h>
 #include "gui/window.hpp"
+#include "gui/point.hpp"
+#include "gui/screen.hpp"
 
 int main()
 {
-    int ch;
-
-    initscr();
+    gui::screen::init();
     cbreak();
     keypad(stdscr, TRUE);
     refresh();
 
-    auto main_window =
-        std::make_unique<gui::Window>(gui::Point{0, 0}, COLS, LINES - 1);
+    auto main_window = createWindow(gui::Point{0, 0}, gui::screen::width(),
+                                    gui::screen::height() - 1);
     main_window->printTo({10, 0}, "main stuff");
     main_window->refresh();
 
-    auto window =
-        std::make_unique<gui::Window>(gui::Point{0, LINES - 1}, COLS, 1);
+    auto window = createWindow(gui::Point{0, gui::screen::height() - 1},
+                               gui::screen::width(), 1);
     window->print("command line");
     window->refresh();
 
-    auto proba = std::make_unique<gui::Window>(*window.get());
+    auto proba = copyWindow(*window.get());
     proba->resize(30, 1);
     proba->moveTo(1, 1);
     proba->print("copied window");
     proba->refresh();
 
+    int ch;
     while ((ch = getch()) != 27)
     {
         switch (ch)
@@ -36,12 +37,15 @@ int main()
             {
                 erase();
 
+                main_window->clear();
                 main_window->moveTo(0, 0);
                 main_window->printTo({10, 10}, "some random text");
 
-                window->moveTo(0, LINES - 1);
+                window->clear();
+                window->moveTo(0, gui::screen::height() - 1);
                 window->print("keep this at the bottom");
 
+                proba->clear();
                 proba->moveTo(0, 2);
                 proba->print("copied window moved");
 

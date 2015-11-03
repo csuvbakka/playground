@@ -1,15 +1,17 @@
 #pragma once
 
-#include "point.hpp"
-
 #include <ncurses.h>
 
+#include <memory>
 #include <string>
 
 namespace gui
 {
+struct Point;
+
 class Window
 {
+
 public:
     Window();
     Window(const Point& p, int width, int height);
@@ -34,4 +36,8 @@ private:
 
     WINDOW* window_;
 };
+
+std::unique_ptr<Window> createWindow();
+std::unique_ptr<Window> createWindow(const Point& p, int width, int height);
+std::unique_ptr<Window> copyWindow(const Window& window);
 };

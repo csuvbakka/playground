@@ -1,4 +1,5 @@
 #include "window.hpp"
+#include "point.hpp"
 #include <ncurses.h>
 
 namespace gui
@@ -77,5 +78,22 @@ void Window::clear()
 void Window::erase()
 {
     werase(window_);
+}
+
+//------------------------------------------------------------------------------
+
+std::unique_ptr<Window> createWindow()
+{
+    return std::make_unique<Window>();
+}
+
+std::unique_ptr<Window> createWindow(const Point& p, int width, int height)
+{
+    return std::make_unique<Window>(p, width, height);
+}
+
+std::unique_ptr<Window> copyWindow(const Window& window)
+{
+    return std::make_unique<Window>(window);
 }
 };
