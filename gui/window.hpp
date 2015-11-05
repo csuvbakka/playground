@@ -19,6 +19,7 @@ public:
     Window& operator=(const Window&) = delete;
     ~Window();
 
+    void move(int x, int y);
     void moveTo(int x, int y);
     void resize(int width, int height);
     void print(const std::string& text);
@@ -28,13 +29,16 @@ public:
     void clear();
     void erase();
 
+    int width() const;
+    int height() const;
+
+    WINDOW* window_;
+
 private:
     int x_;
     int y_;
     int width_;
     int height_;
-
-    WINDOW* window_;
 };
 
 std::unique_ptr<Window> createWindow();

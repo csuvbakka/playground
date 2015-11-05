@@ -41,6 +41,13 @@ Window::~Window()
     delwin(window_);
 }
 
+void Window::move(int x, int y)
+{
+    x_ += x;
+    y_ += y;
+    mvwin(window_, y, x);
+}
+
 void Window::moveTo(int x, int y)
 {
     x_ = x;
@@ -80,6 +87,15 @@ void Window::erase()
     werase(window_);
 }
 
+int Window::width() const
+{
+    return width_;
+}
+
+int Window::height() const
+{
+    return height_;
+}
 //------------------------------------------------------------------------------
 
 std::unique_ptr<Window> createWindow()
