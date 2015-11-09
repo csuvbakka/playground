@@ -5,8 +5,8 @@
 
 WindowHandler::WindowHandler()
 {
-    windows_.push_back(createWindow(gui::Point{0, 0}, gui::screen::width(),
-                                    gui::screen::height() - 1));
+    windows_.push_back(create_window(gui::Point{0, 0}, gui::screen::width(),
+                                     gui::screen::height() - 1));
     active_window_ = windows_.front().get();
     active_window_->refresh();
 }
@@ -21,7 +21,7 @@ WindowHandler::~WindowHandler()
 
 void WindowHandler::vertical_split()
 {
-    auto vertical_split_window = copyWindow(*active_window_);
+    auto vertical_split_window = copy_window(*active_window_);
 
     auto width = active_window_->width() / 2;
     auto height = active_window_->height();
@@ -30,7 +30,7 @@ void WindowHandler::vertical_split()
     active_window_->print("width = " + std::to_string(active_window_->width()));
 
     vertical_split_window->resize(width, height);
-    vertical_split_window->moveTo(width + 1, 0);
+    vertical_split_window->move_to({width + 1, 0});
     vertical_split_window->print("max width = " +
                                  std::to_string(gui::screen::width()));
 

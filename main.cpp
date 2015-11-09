@@ -49,7 +49,7 @@ int main()
             case KEY_DOWN:
             {
                 // for (auto i = 0; i < handler.active_window()->height(); ++i)
-                // line_numbers->printTo({0, i}, std::to_string(i + 1));
+                // line_numbers->print_to({0, i}, std::to_string(i + 1));
 
                 // handler.active_window()->resize(
                 // handler.active_window()->width() - 3,
@@ -69,7 +69,7 @@ int main()
                 break;
 
             default:
-                handler.active_window()->printTo({1, 1}, std::to_string(ch));
+                handler.active_window()->print_to({1, 1}, std::to_string(ch));
                 handler.active_window()->refresh();
                 break;
         }

@@ -6,31 +6,32 @@ namespace gui
 {
 
 Window::Window()
-    : x_(0)
-    , y_(0)
-    , width_(0)
-    , height_(0)
+    : position_{0, 0}
+    , width_{0}
+    , height_{0}
 {
-    window_ = newwin(height_, width_, y_, x_);
-    wrefresh(window_);
+    initialize_window();
 }
 
 Window::Window(const Window& other)
-    : x_(other.x_)
-    , y_(other.y_)
-    , width_(other.width_)
-    , height_(other.height_)
+    : position_{other.position_}
+    , width_{other.width_}
+    , height_{other.height_}
 {
-    window_ = newwin(height_, width_, y_, x_);
+    initialize_window();
 }
 
 Window::Window(const Point& p, int width, int height)
-    : x_(p.x)
-    , y_(p.y)
-    , width_(width)
-    , height_(height)
+    : position_{p}
+    , width_{width}
+    , height_{height}
 {
-    window_ = newwin(height_, width_, y_, x_);
+    initialize_window();
+}
+
+void Window::initialize_window()
+{
+    window_ = newwin(height_, width_, position_.y, position_.x);
     wrefresh(window_);
 }
 
@@ -43,16 +44,16 @@ Window::~Window()
 
 void Window::move(int x, int y)
 {
-    x_ += x;
-    y_ += y;
+    position_.x += x;
+    position_.y += y;
     mvwin(window_, y, x);
 }
 
-void Window::moveTo(int x, int y)
+void Window::move_to(const Point& pos)
 {
-    x_ = x;
-    y_ = y;
-    mvwin(window_, y, x);
+    position_.x = pos.x;
+    position_.y = pos.y;
+    mvwin(window_, pos.y, pos.x);
 }
 
 void Window::move_cursor_to(const Point& pos)
@@ -72,7 +73,7 @@ void Window::print(const std::string& text)
     mvwprintw(window_, 0, 0, text.c_str());
 }
 
-void Window::printTo(const Point& p, const std::string& text)
+void Window::print_to(const Point& p, const std::string& text)
 {
     mvwprintw(window_, p.y, p.x, text.c_str());
 }
@@ -122,17 +123,17 @@ int Window::height() const
 }
 //------------------------------------------------------------------------------
 
-std::unique_ptr<Window> createWindow()
+std::unique_ptr<Window> create_window()
 {
     return std::make_unique<Window>();
 }
 
-std::unique_ptr<Window> createWindow(const Point& p, int width, int height)
+std::unique_ptr<Window> create_window(const Point& p, int width, int height)
 {
     return std::make_unique<Window>(p, width, height);
 }
 
-std::unique_ptr<Window> copyWindow(const Window& window)
+std::unique_ptr<Window> copy_window(const Window& window)
 {
     return std::make_unique<Window>(window);
 }

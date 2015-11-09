@@ -6,9 +6,10 @@
 #include <memory>
 #include <string>
 
+#include "point.hpp"
+
 namespace gui
 {
-struct Point;
 
 class Window
 {
@@ -22,12 +23,12 @@ public:
     ~Window();
 
     void move(int x, int y);
-    void moveTo(int x, int y);
+    void move_to(const Point& pos);
     void move_cursor_to(const Point& pos);
 
     void resize(int width, int height);
     void print(const std::string& text);
-    void printTo(const Point& p, const std::string& text);
+    void print_to(const Point& p, const std::string& text);
     void set_border(const std::array<char, 8>& characters);
 
     std::string read_user_input();
@@ -41,14 +42,16 @@ public:
     int height() const;
 
 private:
+    void initialize_window();
+
+private:
     WINDOW* window_;
-    int x_;
-    int y_;
+    Point position_;
     int width_;
     int height_;
 };
 
-std::unique_ptr<Window> createWindow();
-std::unique_ptr<Window> createWindow(const Point& p, int width, int height);
-std::unique_ptr<Window> copyWindow(const Window& window);
+std::unique_ptr<Window> create_window();
+std::unique_ptr<Window> create_window(const Point& p, int width, int height);
+std::unique_ptr<Window> copy_window(const Window& window);
 };
