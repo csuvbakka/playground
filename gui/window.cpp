@@ -38,6 +38,7 @@ void Window::initialize_window()
 Window::~Window()
 {
     wborder(window_, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
+    werase(window_);
     wrefresh(window_);
     delwin(window_);
 }
@@ -112,6 +113,11 @@ void Window::erase()
     werase(window_);
 }
 
+const Point& Window::position() const
+{
+    return position_;
+}
+
 int Window::width() const
 {
     return width_;
@@ -137,4 +143,9 @@ std::unique_ptr<Window> copy_window(const Window& window)
 {
     return std::make_unique<Window>(window);
 }
-};
+
+Point window_center(const Window& window)
+{
+    return {window.width() / 2, window.height() / 2};
+}
+}

@@ -9,14 +9,11 @@
 
 int main()
 {
-    gui::screen::init();
-    cbreak();
-    keypad(stdscr, TRUE);
-    refresh();
 
     // auto line_numbers =
     // createWindow(gui::Point{0, 0}, 3, gui::screen::height() - 1);
 
+    gui::Screen screen;
     WindowHandler handler;
     CommandLine command_line;
 
@@ -40,14 +37,17 @@ int main()
 
                 break;
             }
+
             case KEY_UP:
-            {
                 handler.vertical_split();
                 break;
-            }
 
             case KEY_DOWN:
             {
+
+                handler.horizontal_split();
+                break;
+
                 // for (auto i = 0; i < handler.active_window()->height(); ++i)
                 // line_numbers->print_to({0, i}, std::to_string(i + 1));
 
@@ -61,8 +61,12 @@ int main()
                 // refresh();
                 // handler.active_window()->refresh();
                 // line_numbers->refresh();
-                break;
+                // break;
             }
+
+            case KEY_RIGHT:
+                handler.close_all_but_active();
+                break;
 
             case KEY_COLON:
                 command_line.read_user_input();

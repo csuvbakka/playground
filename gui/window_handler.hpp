@@ -15,6 +15,8 @@ public:
     ~WindowHandler();
 
     void vertical_split();
+    void horizontal_split();
+    void close_all_but_active();
 
     bool is_line_numbering_on();
     void line_numbering_on();

@@ -2,10 +2,15 @@
 
 namespace gui
 {
-namespace screen
+class Screen
 {
-void init();
-int height();
-int width();
+public:
+    Screen();
+    ~Screen();
+
+    static int height();
+    static int width();
+
+    static void erase();
 };
 }

@@ -38,6 +38,7 @@ public:
     void clear();
     void erase();
 
+    const Point& position() const;
     int width() const;
     int height() const;
 
@@ -54,4 +55,6 @@ private:
 std::unique_ptr<Window> create_window();
 std::unique_ptr<Window> create_window(const Point& p, int width, int height);
 std::unique_ptr<Window> copy_window(const Window& window);
+
+Point window_center(const Window& window);
 };

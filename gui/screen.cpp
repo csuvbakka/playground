@@ -3,21 +3,35 @@
 
 namespace gui
 {
-namespace screen
-{
-void init()
+Screen::Screen()
 {
     initscr();
+    cbreak();
+    keypad(stdscr, TRUE);
+    refresh();
 }
 
-int width()
+Screen::~Screen()
 {
-    return COLS;
+    endwin();
 }
 
-int height()
+int Screen::width()
 {
-    return LINES;
+    int x, y;
+    getmaxyx(stdscr, y, x);
+    return x;
 }
+
+int Screen::height()
+{
+    int x, y;
+    getmaxyx(stdscr, y, x);
+    return y;
+}
+
+void Screen::erase()
+{
+    ::erase();
 }
 }
