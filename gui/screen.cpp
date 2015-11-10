@@ -6,6 +6,13 @@ namespace gui
 Screen::Screen()
 {
     initscr();
+
+    start_color();
+    use_default_colors();
+    init_pair(1, COLOR_RED, COLOR_WHITE);
+    init_pair(2, COLOR_WHITE, COLOR_BLACK);
+    // attron(COLOR_PAIR(0));
+
     cbreak();
     keypad(stdscr, TRUE);
     refresh();
@@ -18,16 +25,12 @@ Screen::~Screen()
 
 int Screen::width()
 {
-    int x, y;
-    getmaxyx(stdscr, y, x);
-    return x;
+    return getmaxx(stdscr);
 }
 
 int Screen::height()
 {
-    int x, y;
-    getmaxyx(stdscr, y, x);
-    return y;
+    return getmaxy(stdscr);
 }
 
 void Screen::erase()

@@ -14,7 +14,7 @@ Window::Window()
 }
 
 Window::Window(const Window& other)
-    : position_{other.position_}
+    : position_(other.position_)
     , width_{other.width_}
     , height_{other.height_}
 {
@@ -22,7 +22,7 @@ Window::Window(const Window& other)
 }
 
 Window::Window(const Point& p, int width, int height)
-    : position_{p}
+    : position_(p)
     , width_{width}
     , height_{height}
 {
@@ -83,6 +83,11 @@ void Window::set_border(const std::array<char, 8>& characters)
 {
     wborder(window_, characters[0], characters[1], characters[2], characters[3],
             characters[4], characters[5], characters[6], characters[7]);
+}
+
+void Window::set_empty_border()
+{
+    set_border({{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}});
 }
 
 std::string Window::read_user_input()

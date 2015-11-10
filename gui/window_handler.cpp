@@ -31,7 +31,7 @@ void WindowHandler::vertical_split()
 
     active_window_->resize(width, height);
     // active_window_->set_border({{' ', '|', ' ', ' ', ' ', '@', ' ', ' '}});
-    active_window_->set_border({{'@', '@', '@', '@', '@', '@', '@', '@'}});
+    // active_window_->set_border({{'@', '@', '@', '@', '@', '@', '@', '@'}});
     active_window_->print_to(window_center(*active_window_),
                              "width = " +
                                  std::to_string(active_window_->width()));
@@ -39,11 +39,18 @@ void WindowHandler::vertical_split()
     vertical_split_window->resize(vertical_split_window->width() - width - 1,
                                   height);
     vertical_split_window->move_to({width + 1, 0});
-    vertical_split_window->set_border(
-        {{'/', '/', '/', '/', '/', '/', '/', '/'}});
+    // vertical_split_window->set_border(
+    // {{'/', '/', '/', '/', '/', '/', '/', '/'}});
     vertical_split_window->print_to(
         window_center(*vertical_split_window.get()),
         "width = " + std::to_string(vertical_split_window->width()));
+
+    wattron(vertical_split_window->window_, COLOR_PAIR(2));
+    vertical_split_window->set_empty_border();
+    wattroff(vertical_split_window->window_, COLOR_PAIR(2));
+
+    // wattrset(active_window_->window_, 0);
+    // wattrset(vertical_split_window->window_, 0);
 
     vertical_split_window->refresh();
     active_window_->refresh();

@@ -9,7 +9,6 @@
 
 int main()
 {
-
     // auto line_numbers =
     // createWindow(gui::Point{0, 0}, 3, gui::screen::height() - 1);
 
