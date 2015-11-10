@@ -46,7 +46,7 @@ void WindowHandler::vertical_split()
         "width = " + std::to_string(vertical_split_window->width()));
 
     wattron(vertical_split_window->window_, COLOR_PAIR(2));
-    vertical_split_window->set_empty_border();
+    draw_right_border(*vertical_split_window.get());
     wattroff(vertical_split_window->window_, COLOR_PAIR(2));
 
     // wattrset(active_window_->window_, 0);

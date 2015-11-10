@@ -81,13 +81,21 @@ void Window::print_to(const Point& p, const std::string& text)
 
 void Window::set_border(const std::array<char, 8>& characters)
 {
+   // 0 - left side
+   // 1 - right side
+   // 2 - top side
+   // 3 - bottom side
+   // 4 - top left-hand corner
+   // 5 - top right-hand corner
+   // 6 - bottom left-hand corner
+   // 7 - bottom right-hand corner
     wborder(window_, characters[0], characters[1], characters[2], characters[3],
             characters[4], characters[5], characters[6], characters[7]);
 }
 
-void Window::set_empty_border()
+void Window::draw_vertical_line_at(const Point& pos, int length, char ch)
 {
-    set_border({{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}});
+    mvwvline(window_, pos.y, pos.x, ' ', length);;
 }
 
 std::string Window::read_user_input()
@@ -153,4 +161,10 @@ Point window_center(const Window& window)
 {
     return {window.width() / 2, window.height() / 2};
 }
+
+void draw_right_border(Window& window)
+{
+   window.draw_vertical_line_at({0, 0}, window.height(), ' ');
 }
+}
+

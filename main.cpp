@@ -19,7 +19,7 @@ int main()
     const auto KEY_COLON = 58;
 
     int ch;
-    while ((ch = getch()) != 27)
+    while ((ch = getch()))
     {
         switch (ch)
         {
@@ -68,8 +68,14 @@ int main()
                 break;
 
             case KEY_COLON:
-                command_line.read_user_input();
+            {
+                auto input = command_line.read_user_input();
+                if (input == "q")
+                {
+                   return 0;
+                }
                 break;
+            }
 
             default:
                 handler.active_window()->print_to({1, 1}, std::to_string(ch));

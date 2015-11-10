@@ -30,7 +30,7 @@ public:
     void print(const std::string& text);
     void print_to(const Point& p, const std::string& text);
     void set_border(const std::array<char, 8>& characters);
-    void set_empty_border();
+    void draw_vertical_line_at(const Point& pos, int length, char ch);
 
     std::string read_user_input();
     std::string read_user_input_at(const Point& pos);
@@ -59,4 +59,7 @@ std::unique_ptr<Window> create_window(const Point& p, int width, int height);
 std::unique_ptr<Window> copy_window(const Window& window);
 
 Point window_center(const Window& window);
+
+void draw_right_border(Window& window);
+
 };
