@@ -33,8 +33,7 @@ void WindowHandler::vertical_split()
     // active_window_->set_border({{' ', '|', ' ', ' ', ' ', '@', ' ', ' '}});
     // active_window_->set_border({{'@', '@', '@', '@', '@', '@', '@', '@'}});
     active_window_->print_to(window_center(*active_window_),
-                             "width = " +
-                                 std::to_string(active_window_->width()));
+                             std::to_string(active_window_->width()));
 
     vertical_split_window->resize(vertical_split_window->width() - width - 1,
                                   height);
@@ -43,7 +42,7 @@ void WindowHandler::vertical_split()
     // {{'/', '/', '/', '/', '/', '/', '/', '/'}});
     vertical_split_window->print_to(
         window_center(*vertical_split_window.get()),
-        "width = " + std::to_string(vertical_split_window->width()));
+        std::to_string(vertical_split_window->width()));
 
     wattron(vertical_split_window->window_, COLOR_PAIR(2));
     draw_right_border(*vertical_split_window.get());
@@ -69,21 +68,20 @@ void WindowHandler::horizontal_split()
     auto horizontal_split_window = copy_window(*active_window_);
 
     active_window_->resize(width, height);
-    active_window_->set_border({{'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'}});
+    active_window_->set_border({{'-', '-', '-', '-', '-', '-', '-', '-'}});
 
     active_window_->print_to(window_center(*active_window_),
-                             "height = " +
-                                 std::to_string(active_window_->height()));
+                             std::to_string(active_window_->height()));
 
     horizontal_split_window->resize(width,
                                     horizontal_split_window->height() - height);
     horizontal_split_window->move_to(
         {horizontal_split_window->position().x, height});
     horizontal_split_window->set_border(
-        {{'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y'}});
+        {{'-', '-', '-', '-', '-', '-', '-', '-'}});
     horizontal_split_window->print_to(
         window_center(*horizontal_split_window.get()),
-        "height = " + std::to_string(horizontal_split_window->height()));
+        std::to_string(horizontal_split_window->height()));
 
     horizontal_split_window->refresh();
     active_window_->refresh();
