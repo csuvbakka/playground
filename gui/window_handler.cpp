@@ -27,7 +27,7 @@ void WindowHandler::vertical_split()
         return;
 
     auto height = active_window_->height();
-    auto vertical_split_window = copy_window(*active_window_);
+    auto vertical_split_window = active_window_->clone();
 
     active_window_->resize(width, height);
     // active_window_->set_border({{' ', '|', ' ', ' ', ' ', '@', ' ', ' '}});
@@ -65,7 +65,7 @@ void WindowHandler::horizontal_split()
         return;
 
     auto width = active_window_->width();
-    auto horizontal_split_window = copy_window(*active_window_);
+    auto horizontal_split_window = active_window_->clone();
 
     active_window_->resize(width, height);
     active_window_->set_border({{'-', '-', '-', '-', '-', '-', '-', '-'}});

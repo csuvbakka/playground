@@ -15,12 +15,9 @@ class Window
 {
 
 public:
-    Window();
-    Window(const Point& p, int width, int height);
-    Window(const Window& other);
-    Window(Window&& other) = delete;
-    Window& operator=(const Window&) = delete;
     ~Window();
+
+    std::unique_ptr<Window> clone() const;
 
     void move(int x, int y);
     void move_to(const Point& pos);
@@ -45,7 +42,16 @@ public:
 
     WINDOW* window_;
 
+    friend std::unique_ptr<Window> create_window();
+    friend std::unique_ptr<Window> create_window(const Point& p, int width, int height);
+
 private:
+    Window();
+    Window(const Point& p, int width, int height);
+    Window(const Window& other) = delete;
+    Window(Window&& other) = default;
+    Window& operator=(const Window&) = delete;
+    Window& operator=(Window&&) = default;
     void initialize_window();
 
 private:
@@ -56,7 +62,6 @@ private:
 
 std::unique_ptr<Window> create_window();
 std::unique_ptr<Window> create_window(const Point& p, int width, int height);
-std::unique_ptr<Window> copy_window(const Window& window);
 
 Point window_center(const Window& window);
 

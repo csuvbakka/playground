@@ -13,14 +13,6 @@ Window::Window()
     initialize_window();
 }
 
-Window::Window(const Window& other)
-    : position_(other.position_)
-    , width_{other.width_}
-    , height_{other.height_}
-{
-    initialize_window();
-}
-
 Window::Window(const Point& p, int width, int height)
     : position_(p)
     , width_{width}
@@ -41,6 +33,11 @@ Window::~Window()
     werase(window_);
     wrefresh(window_);
     delwin(window_);
+}
+
+std::unique_ptr<Window> Window::clone() const
+{
+    return create_window(position_, width_, height_);
 }
 
 void Window::move(int x, int y)
@@ -144,17 +141,12 @@ int Window::height() const
 
 std::unique_ptr<Window> create_window()
 {
-    return std::make_unique<Window>();
+    return std::unique_ptr<Window>(new Window());
 }
 
 std::unique_ptr<Window> create_window(const Point& p, int width, int height)
 {
-    return std::make_unique<Window>(p, width, height);
-}
-
-std::unique_ptr<Window> copy_window(const Window& window)
-{
-    return std::make_unique<Window>(window);
+    return std::unique_ptr<Window>(new Window(p, width, height));
 }
 
 Point window_center(const Window& window)
