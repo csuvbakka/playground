@@ -1,6 +1,6 @@
 #include "window.hpp"
-#include "point.hpp"
 #include <ncurses.h>
+#include "point.hpp"
 
 namespace gui
 {
@@ -37,7 +37,7 @@ Window::~Window()
 
 std::unique_ptr<Window> Window::clone() const
 {
-    return create_window(position_, width_, height_);
+    return Window::create(position_, width_, height_);
 }
 
 void Window::move(int x, int y)
@@ -78,21 +78,22 @@ void Window::print_to(const Point& p, const std::string& text)
 
 void Window::set_border(const std::array<char, 8>& characters)
 {
-   // 0 - left side
-   // 1 - right side
-   // 2 - top side
-   // 3 - bottom side
-   // 4 - top left-hand corner
-   // 5 - top right-hand corner
-   // 6 - bottom left-hand corner
-   // 7 - bottom right-hand corner
+    // 0 - left side
+    // 1 - right side
+    // 2 - top side
+    // 3 - bottom side
+    // 4 - top left-hand corner
+    // 5 - top right-hand corner
+    // 6 - bottom left-hand corner
+    // 7 - bottom right-hand corner
     wborder(window_, characters[0], characters[1], characters[2], characters[3],
             characters[4], characters[5], characters[6], characters[7]);
 }
 
 void Window::draw_vertical_line_at(const Point& pos, int length, char ch)
 {
-    mvwvline(window_, pos.y, pos.x, ' ', length);;
+    mvwvline(window_, pos.y, pos.x, ' ', length);
+    ;
 }
 
 std::string Window::read_user_input()
@@ -137,17 +138,18 @@ int Window::height() const
 {
     return height_;
 }
-//------------------------------------------------------------------------------
 
-std::unique_ptr<Window> create_window()
+std::unique_ptr<Window> Window::create()
 {
     return std::unique_ptr<Window>(new Window());
 }
 
-std::unique_ptr<Window> create_window(const Point& p, int width, int height)
+std::unique_ptr<Window> Window::create(const Point& p, int width, int height)
 {
     return std::unique_ptr<Window>(new Window(p, width, height));
 }
+
+//------------------------------------------------------------------------------
 
 Point window_center(const Window& window)
 {
@@ -156,7 +158,6 @@ Point window_center(const Window& window)
 
 void draw_right_border(Window& window)
 {
-   window.draw_vertical_line_at({0, 0}, window.height(), ' ');
+    window.draw_vertical_line_at({0, 0}, window.height(), ' ');
 }
 }
-

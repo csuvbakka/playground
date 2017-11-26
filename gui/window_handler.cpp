@@ -1,14 +1,14 @@
 #include "window_handler.hpp"
-#include "../gui/window.hpp"
 #include "../gui/point.hpp"
 #include "../gui/screen.hpp"
+#include "../gui/window.hpp"
 
 #include <algorithm>
 
 WindowHandler::WindowHandler()
 {
-    windows_.push_back(create_window(gui::Point{0, 0}, gui::Screen::width(),
-                                     gui::Screen::height() - 1));
+    windows_.push_back(gui::Window::create(
+        gui::Point{0, 0}, gui::Screen::width(), gui::Screen::height() - 1));
     active_window_ = windows_.front().get();
     active_window_->refresh();
 }
@@ -97,11 +97,9 @@ void WindowHandler::close_all_but_active()
     // gui::Screen::erase();
 
     auto active =
-        std::find_if(windows_.begin(), windows_.end(),
-                     [this](const std::unique_ptr<gui::Window>& window)
-                     {
-                         return window.get() == active_window_;
-                     });
+        std::find_if(windows_.begin(), windows_.end(), [this](auto&& window) {
+            return window.get() == active_window_;
+        });
 
     std::iter_swap(windows_.begin(), active);
     windows_.resize(1);

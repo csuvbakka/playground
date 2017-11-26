@@ -42,8 +42,9 @@ public:
 
     WINDOW* window_;
 
-    friend std::unique_ptr<Window> create_window();
-    friend std::unique_ptr<Window> create_window(const Point& p, int width, int height);
+    static std::unique_ptr<Window> create();
+    static std::unique_ptr<Window> create(const Point& p, int width,
+                                          int height);
 
 private:
     Window();
@@ -60,11 +61,7 @@ private:
     int height_;
 };
 
-std::unique_ptr<Window> create_window();
-std::unique_ptr<Window> create_window(const Point& p, int width, int height);
-
 Point window_center(const Window& window);
 
 void draw_right_border(Window& window);
-
 };

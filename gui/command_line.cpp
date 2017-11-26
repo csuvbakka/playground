@@ -1,10 +1,10 @@
 #include "command_line.hpp"
-#include "screen.hpp"
 #include "point.hpp"
+#include "screen.hpp"
 
 CommandLine::CommandLine()
-    : window_(create_window(gui::Point{0, gui::Screen::height() - 1},
-                            gui::Screen::width(), 1))
+    : window_(gui::Window::create(gui::Point{0, gui::Screen::height() - 1},
+                                  gui::Screen::width(), 1))
 {
     window_->print("command line");
     window_->refresh();
