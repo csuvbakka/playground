@@ -60,7 +60,6 @@ void WindowHandler::vertical_split()
 void WindowHandler::horizontal_split()
 {
     auto height = active_window_->height() / 2;
-
     if (height < 3)
         return;
 
@@ -117,4 +116,18 @@ void WindowHandler::close_all_but_active()
 gui::Window* WindowHandler::active_window()
 {
     return active_window_;
+}
+
+gui::Window& WindowHandler::add_window(std::unique_ptr<gui::Window> window)
+{
+    windows_.push_back(std::move(window));
+    return *windows_.back().get();
+}
+
+void WindowHandler::activate_window(gui::Window& window)
+{
+    const auto window_to_activate =
+        std::find_if(windows_.begin(), windows_.end(),
+                     [&window](const auto& w) { return *(w.get()) == window; });
+    active_window_ = window_to_activate->get();
 }

@@ -1,11 +1,11 @@
+#include <ncurses.h>
 #include <memory>
 #include <string>
-#include <ncurses.h>
-#include "gui/window.hpp"
+#include "gui/command_line.hpp"
 #include "gui/point.hpp"
 #include "gui/screen.hpp"
+#include "gui/window.hpp"
 #include "gui/window_handler.hpp"
-#include "gui/command_line.hpp"
 
 int main()
 {
@@ -43,8 +43,10 @@ int main()
 
             case KEY_DOWN:
             {
+                handler.active_window()->resize(5, 5);
+                handler.active_window()->refresh();
 
-                handler.horizontal_split();
+                // handler.horizontal_split();
                 break;
 
                 // for (auto i = 0; i < handler.active_window()->height(); ++i)
@@ -67,12 +69,29 @@ int main()
                 handler.close_all_but_active();
                 break;
 
+            case KEY_LEFT:
+                handler.active_window()->move(1, 1);
+                handler.active_window()->print_to(
+                    window_center(*handler.active_window()),
+                    std::to_string(handler.active_window()->height()));
+                handler.active_window()->refresh();
+                break;
+
             case KEY_COLON:
             {
                 auto input = command_line.read_user_input();
                 if (input == "q")
                 {
-                   return 0;
+                    return 0;
+                }
+                if (input == "add")
+                {
+                    auto& new_window =
+                        handler.add_window(gui::Window::create({0, 0}, 30, 10));
+                    new_window.set_border(
+                        {{'-', '-', '-', '-', '-', '-', '-', '-'}});
+                    new_window.refresh();
+                    handler.activate_window(new_window);
                 }
                 break;
             }

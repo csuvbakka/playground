@@ -46,6 +46,9 @@ public:
     static std::unique_ptr<Window> create(const Point& p, int width,
                                           int height);
 
+    friend bool operator==(const Window& lhs, const Window& rhs);
+    friend bool operator!=(const Window& lhs, const Window& rhs);
+
 private:
     Window();
     Window(const Point& p, int width, int height);
@@ -64,4 +67,7 @@ private:
 Point window_center(const Window& window);
 
 void draw_right_border(Window& window);
+
+bool operator==(const Window& lhs, const Window& rhs);
+bool operator!=(const Window& lhs, const Window& rhs);
 };

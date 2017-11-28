@@ -44,7 +44,9 @@ void Window::move(int x, int y)
 {
     position_.x += x;
     position_.y += y;
-    mvwin(window_, y, x);
+    // returns ERR if some part of the window would be placed off-screen
+    if (mvwin(window_, position_.y, position_.x) == ERR)
+        throw 42;
 }
 
 void Window::move_to(const Point& pos)
@@ -61,6 +63,10 @@ void Window::move_cursor_to(const Point& pos)
 
 void Window::resize(int width, int height)
 {
+    if (width <= 0)
+        throw std::runtime_error("Width must be more than zero!");
+    if (height <= 0)
+        throw std::runtime_error("Height must be more than zero!");
     width_ = width;
     height_ = height;
     wresize(window_, height, width);
@@ -159,5 +165,14 @@ Point window_center(const Window& window)
 void draw_right_border(Window& window)
 {
     window.draw_vertical_line_at({0, 0}, window.height(), ' ');
+}
+
+bool operator==(const Window& lhs, const Window& rhs)
+{
+    return lhs.window_ == rhs.window_;
+}
+bool operator!=(const Window& lhs, const Window& rhs)
+{
+    return !(lhs == rhs);
 }
 }
